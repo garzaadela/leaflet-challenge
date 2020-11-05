@@ -17,13 +17,28 @@ let myMap = L.map("map", {
     // layers: [streetmap, earthquakes]
 });
 
+function getColor(d) {
+  return d > 90  ? '#ffffb2' :
+         d > 70  ? '#fed976' :
+         d > 50  ? '#feb24c' :
+         d > 30  ? '#fd8d3c' :
+         d > 10  ? '#f03b20' :
+                  '#bd0026' ;
+         
+}
+
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson", function(data) {
     console.log(data)
     let earthquakes = L.geoJSON(data, {
         pointToLayer: function (feature, latlng) {
           console.log(latlng)
           let geojsonMarkerOptions = {
-            radius: feature.properties.mag * 4
+            radius: feature.properties.mag * 4,
+            fillColor: getColor(feature.geometry.coordinates[2]),
+            weight: 1,
+            opacity: 1,
+            color: 'black',
+            fillOpacity: 0.7
           };
           return L.circleMarker(latlng, geojsonMarkerOptions);
         }
@@ -42,4 +57,16 @@ let baseMaps = {
   }).addTo(myMap);
     
 })
+
+// set up the legend
+// legend = L.control({position: "bottomright"});
+// legend.onAdd = function() {
+//   let div = L.DomUtil.create("div", "info legend");
+//   let limits = geojson.options.limits;
+//   let colors = geojson.options.colors;
+//   let labels = [];
+
+//   let legendInfo = "<h1>"
+// }
+// )
 
