@@ -4,7 +4,7 @@ let streetmap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
     tileSize: 512,
     maxZoom: 18,
     zoomOffset: -1,
-    id: 'mapbox/streets-v11',
+    id: 'mapbox/satellite-streets-v11',
     accessToken: API_KEY
 })
 // Create our map, giving it the streetmap and earthquakes layers to display on load
