@@ -4,7 +4,7 @@ let streetmap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
     tileSize: 512,
     maxZoom: 18,
     zoomOffset: -1,
-    id: 'mapbox/satellite-streets-v11',
+    id: 'mapbox/light-v10',
     accessToken: API_KEY
 })
 // Create our map, giving it the streetmap and earthquakes layers to display on load
@@ -18,12 +18,12 @@ let myMap = L.map("map", {
 });
 
 function getColor(d) {
-  return d > 90  ? '#ffffb2' :
-         d > 70  ? '#fed976' :
-         d > 50  ? '#feb24c' :
-         d > 30  ? '#fd8d3c' :
-         d > 10  ? '#f03b20' :
-                  '#bd0026' ;
+  return d > 90  ? '#bd0026' :
+         d > 70  ? '#f03b20' :
+         d > 50  ? '#fd8d3c' :
+         d > 30  ? '#feb24c' :
+         d > 10  ? '#fed976' :
+                  '#ffffb2' ;
          
 }
 
@@ -40,7 +40,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geo
             weight: 1,
             opacity: 1,
             color: 'black',
-            fillOpacity: 0.7
+            fillOpacity: 1
           };
           return L.circleMarker(latlng, geojsonMarkerOptions);
         },
@@ -68,19 +68,19 @@ let baseMaps = {
     collapsed: false
   }).addTo(myMap);
 
-  var legend = L.control({position: 'bottomright'});
+  let legend = L.control({position: 'bottomright'});
 
   legend.onAdd = function () {
   
       let div = L.DomUtil.create('div', 'info legend'),
-          grades = [0, 10, 30, 50, 70, 90],
+          depth = [-10, 10, 30, 50, 70, 90],
           labels = ['#ffffb2', '#fed976', '#feb24c', '#fd8d3c', '#f03b20', '#bd0026'];
-  
+          
       // loop through our density intervals and generate a label with a colored square for each interval
-      for (let i = 0; i < grades.length; i++) {
+      for (let i = 0; i < depth.length; i++) {
           div.innerHTML +=
               '<i style="background:' + labels[i] + '"></i> ' +
-              grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+              depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
       }
   
       return div;
@@ -88,16 +88,3 @@ let baseMaps = {
   
   legend.addTo(myMap); 
 });
-
-// set up the legend
-// legend = L.control({position: "bottomright"});
-// legend.onAdd = function() {
-//   let div = L.DomUtil.create("div", "info legend");
-//   let limits = geojson.options.limits;
-//   let colors = geojson.options.colors;
-//   let labels = [];
-
-//   let legendInfo = "<h1>"
-// }
-// )
-
